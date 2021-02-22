@@ -1,0 +1,19 @@
+{
+  "name": "auction_server",
+  "version": "1.0.0",
+  "description": "webservice responsavel por gerenciar uma solução de leilão virtual",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node ./src/index.js",
+    "clientUDP": "node ./test/clientUDP.js",
+    "clientTCP": "node ./test/clientTCP.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "auction_server"
+  },
+  "author": "Rodrigo e Gabriel",
+  "license": "ISC",
+  "type": "module"
+}
