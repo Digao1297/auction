@@ -5,8 +5,11 @@ import Tls from "tls";
 import { getIPAddress } from "../src/services/getIp.js";
 
 // const client = new Net.Socket();
-const PORT = 20000;
+const PORT = 8080;
 const HOST = getIPAddress();
+const USERNAME = "jubileu";
+let SERVER_KEY = "";
+let MULTICAST_ADDR = "";
 
 const options = {
   host: "localhost",
@@ -19,20 +22,28 @@ const options = {
 };
 
 var socket = Tls.connect(options, () => {
-  console.log(
-    "client connected",
-    socket.authorized ? "authorized" : "unauthorized"
-  );
-  process.stdin.pipe(socket);
-  process.stdin.resume();
+  socket.write(`${USERNAME} - connected`);
 
-  // socket.end();
+  socket.end();
 });
 
 socket.setEncoding("utf8");
 
 socket.on("data", (data) => {
-  console.log(data);
+  if (data.split(" - ")[0] != USERNAME) {
+    console.log(data);
+    const dataJson = JSON.parse(data);
+    if (SERVER_KEY == "") {
+      SERVER_KEY = dataJson.key;
+    }
+    if (MULTICAST_ADDR == "") {
+      MULTICAST_ADDR = dataJson.group;
+    }
+  }
+});
+
+socket.on("error", (error) => {
+  console.log(error);
 });
 
 socket.on("end", () => {

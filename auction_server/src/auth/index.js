@@ -2,10 +2,11 @@ import fs from "fs";
 import Tls from "tls";
 
 export default class Auth {
-  constructor(Net, host, port) {
+  constructor(host, port, group, publicKey) {
     this.host = host;
-    this.Net = Net;
     this.port = port;
+    this.group = group;
+    this.publicKey = publicKey;
   }
 
   async start() {
@@ -18,21 +19,18 @@ export default class Auth {
     };
 
     const server = Tls.createServer(options, (socket) => {
-      console.log(
-        `server connected ${socket.authorized ? "authorized" : "unauthorized"}`
-      );
-
       socket.on("error", (error) => {
         console.log(error);
       });
 
-      socket.write("welcome!\n");
+      socket.write(
+        JSON.stringify({ key: `${this.publicKey}`, group: this.group })
+      );
       socket.setEncoding("utf8");
-      socket.pipe(process.stdout);
       socket.pipe(socket);
     });
 
-    server.listen(8000, () => {
+    server.listen(this.port, () => {
       console.log("server bound");
     });
   }

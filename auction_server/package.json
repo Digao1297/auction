@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node ./src/index.js",
-    "clientUDP": "node ./test/clientUDP.js",
-    "clientTCP": "node ./test/clientTCP.js"
+    "client": "node ./test/client.js"
   },
   "repository": {
     "type": "git",
