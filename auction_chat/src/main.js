@@ -72,9 +72,10 @@ function startUDP() {
     const dataRaw = decrypt(data);
     const message = dataRaw.split("-");
 
-    if (message[1] == "end") {
+    if (message[1] == "Leilão finalizado!") {
       socket.close();
     }
+
     if (serverMessage != message[1]) {
       serverMessage = message[1];
       let msg = {};
